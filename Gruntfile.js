@@ -59,12 +59,18 @@ module.exports = function (grunt) {
           { expand: true, cwd: 'src/variety', src: ['*.js'], dest: 'dist/pzpr-variety' }
         ]
       }
+    },
+
+    watch: {
+      files: 'src/**/*.js',
+      tasks: ['dev']
     }
+
   });
 
   grunt.registerTask('default', ['build']);
   grunt.registerTask('release', ['build']);
-  grunt.registerTask('dev', ['newer:concat:pzpr-dev', 'newer:concat:variety-dev']);
+  grunt.registerTask('dev', ['concat:pzpr-dev', 'concat:variety-dev']);
   grunt.registerTask('build', ['build:pzpr', 'build:variety']);
   grunt.registerTask('build:pzpr', ['newer:concat:pzpr', 'newer:uglify:pzpr']);
   grunt.registerTask('build:variety', ['newer:uglify:variety']);
