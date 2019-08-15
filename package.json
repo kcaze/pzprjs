@@ -22,6 +22,7 @@
   },
   "scripts": {
     "build": "eslint --cache --quiet src && grunt default",
+    "dev": "grunt dev",
     "release": "npm run clean && eslint --cache --quiet src && grunt release",
     "clean": "del dist/* pzpr-*.{zip,tar.gz,tar.bz2,tgz}",
     "lint": "eslint src test sample",

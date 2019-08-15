@@ -1,9 +1,9 @@
-module.exports = function(grunt){
+module.exports = function (grunt) {
   var pkg = grunt.file.readJSON('package.json'), deps = pkg.devDependencies;
-  for(var plugin in deps){ if(plugin.match(/^grunt\-/)){ grunt.loadNpmTasks(plugin);}}
-  
+  for (var plugin in deps) { if (plugin.match(/^grunt\-/)) { grunt.loadNpmTasks(plugin); } }
+
   var fs = require('fs');
-  var banner_min  = fs.readFileSync('./src/common/banner_min.js',  'utf-8');
+  var banner_min = fs.readFileSync('./src/common/banner_min.js', 'utf-8');
   var banner_full = fs.readFileSync('./src/common/banner_full.js', 'utf-8');
 
   var PRODUCTION = (grunt.cli.tasks.indexOf('release') >= 0);
@@ -15,13 +15,23 @@ module.exports = function(grunt){
       options: {
         banner: banner_full,
         process: true,
-	  },
+      },
       pzpr: {
         options: {
           sourceMap: !PRODUCTION
         },
         files: [
           { src: require('./src/pzpr.js').files, dest: 'dist/pzpr.concat.js' }
+        ]
+      },
+      'pzpr-dev': {
+        files: [
+          { src: require('./src/pzpr.js').files, dest: 'dist/pzpr.js' }
+        ]
+      },
+      'variety-dev': {
+        files: [
+          { expand: true, cwd: 'src/variety', src: ['*.js'], dest: 'dist/pzpr-variety' }
         ]
       }
     },
@@ -31,19 +41,19 @@ module.exports = function(grunt){
         banner: banner_min,
         report: 'min'
       },
-      pzpr:{
+      pzpr: {
         options: (PRODUCTION ? {} : {
-          sourceMap : 'dist/pzpr.js.map',
-          sourceMapIn : 'dist/pzpr.concat.js.map',
-          sourceMapIncludeSources : true
+          sourceMap: 'dist/pzpr.js.map',
+          sourceMapIn: 'dist/pzpr.concat.js.map',
+          sourceMapIncludeSources: true
         }),
         files: [
-          { src: 'dist/pzpr.concat.js', dest: 'dist/pzpr.js'}
+          { src: 'dist/pzpr.concat.js', dest: 'dist/pzpr.js' }
         ]
       },
-      variety:{
+      variety: {
         options: (PRODUCTION ? {} : {
-          sourceMap : function(filename){ return filename+'.map';}
+          sourceMap: function (filename) { return filename + '.map'; }
         }),
         files: [
           { expand: true, cwd: 'src/variety', src: ['*.js'], dest: 'dist/pzpr-variety' }
@@ -51,10 +61,11 @@ module.exports = function(grunt){
       }
     }
   });
-  
+
   grunt.registerTask('default', ['build']);
   grunt.registerTask('release', ['build']);
-  grunt.registerTask('build',        ['build:pzpr', 'build:variety']);
-  grunt.registerTask('build:pzpr',   ['newer:concat:pzpr', 'newer:uglify:pzpr']);
-  grunt.registerTask('build:variety',['newer:uglify:variety']);
+  grunt.registerTask('dev', ['newer:concat:pzpr-dev', 'newer:concat:variety-dev']);
+  grunt.registerTask('build', ['build:pzpr', 'build:variety']);
+  grunt.registerTask('build:pzpr', ['newer:concat:pzpr', 'newer:uglify:pzpr']);
+  grunt.registerTask('build:variety', ['newer:uglify:variety']);
 };
