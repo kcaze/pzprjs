@@ -423,9 +423,17 @@
 			const encodedBoard = new puzzle.klass.Encode()
 				.encodeURL(3)
 				.replace(/http:\/\/www.kanpen.net\/[^\/]*\//g, '')
-				.replace(/\/$/g, '')
-				.replace(/\//g, '\n');
-			console.log(puzzleName, encodedBoard);
+				.replace(/\/$/g, '');
+			var request = new XMLHttpRequest();
+			request.addEventListener('load', function () {
+				console.log(this.responseText);
+			});
+			request.open('GET', '/conpuzzle_solver.php', true);
+			request.setRequestHeader('conpuzzle-input', JSON.stringify({
+				puzzleName,
+				encodedBoard
+			}));
+			request.send();
 		};
 		puzzle.painter = new classes.Graphic();		// 描画系オブジェクト
 
