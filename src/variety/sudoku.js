@@ -131,5 +131,16 @@ AnsCheck:{
 		"checkDifferentNumberInLine",
 		"checkNoNumCell+"
 	]
+},
+
+Solver: {
+	convertAnswerToCells: function(cells, answer) {
+		const anums = answer.trim().split('\n').map(row => row.split(/\s+/g)).flat();
+		anums.forEach((anum, idx) => {
+			//new this.klass.Address(idx % 9 + 1, idx / 9 + 1).getc().setAnum(anum);
+			//console.log(cells[idx]);
+			cells[idx].setAnum(anum);
+		});
+	}
 }
 }));
