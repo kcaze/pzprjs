@@ -419,23 +419,31 @@
 		puzzle.checker = new classes.AnsCheck();	// 正解判定オブジェクト
     
 		const [NO_SOLUTIONS, UNIQUE_SOLUTION, MULTIPLE_SOLUTIONS] = [0, 1, 2];
+    const messageElement = document.getElementById('message');
     function onSolveResponse(response) {
       const {solutionType, solution} = response;
       if (solutionType === NO_SOLUTIONS) {
+        messageElement.innerText = 'No solutions found.';
         return;
       } else if (solutionType === MULTIPLE_SOLUTIONS) {
-
+        messageElement.innerText = 'Multiple solutions found. Showing one of them.';
       }
       new puzzle.klass.Solver().displayAnswer(solution);
     }
 		puzzle.solve = () => {
+      const encodedURL = new puzzle.klass.Encode().encodeURL(0);
+      const request = new XMLHttpRequest();
+
 			return new Promise(resolve => {
-				const encodedURL = new puzzle.klass.Encode().encodeURL(0);
-				var request = new XMLHttpRequest();
+        messageElement.innerText = 'Solving...';
 				request.addEventListener('load', function () {
           console.log('Response:', this.responseText);
-          onSolveResponse(JSON.parse(this.responseText));
-          resolve()
+          try {
+            onSolveResponse(JSON.parse(this.responseText));
+          } catch (e) {
+            messageElement.innerText = 'Time limit exceeded.';
+          }
+          resolve();
         });
 				request.open('GET', '/conpuzzle_solver.php', true);
 				request.setRequestHeader('conpuzzle-input', encodedURL);
