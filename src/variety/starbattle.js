@@ -370,7 +370,13 @@ FailCode:{
 	bkStarGt : ["ブロックに入る星の数が多すぎます。","The number of stars in a block is more than the problem."],
 	bkStarLt : ["ブロックに入る星の数が少ないです。","The number of stars in a block is less than the problem."],
 	lnStarNe : ["1つの行に入る星の数が間違っています。","The number of stars in a line is other than the problem."]
-}
+},
+
+		Solver: {
+			convertAnswerToCells: function (cells, answer) {
+				console.log(answer);
+			}
+		}
 }));
 
 })();

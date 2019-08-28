@@ -419,23 +419,26 @@
 		puzzle.checker = new classes.AnsCheck();	// 正解判定オブジェクト
 		puzzle.solve = () => {
 			return new Promise(resolve => {
-			const puzzleName = puzzle.info.pid;
-			// 3 is the KANPEN encoding type which is easiest to parse.
-			const encodedBoard = new puzzle.klass.Encode()
-				.encodeURL(3)
-				.replace(/http:\/\/www.kanpen.net\/[^\/]*\//g, '')
-				.replace(/\/$/g, '');
-			var request = new XMLHttpRequest();
-			request.addEventListener('load', function () {
-				new puzzle.klass.Solver().convertAnswerToCells(puzzle.board.cell, this.responseText)
-				resolve();
-			});
-			request.open('GET', '/conpuzzle_solver.php', true);
-			request.setRequestHeader('conpuzzle-input', JSON.stringify({
-				puzzleName,
-				encodedBoard
-			}));
-			request.send();
+				const puzzleName = puzzle.info.pid;
+				const encodedBoard = puzzleName === 'starbattle' ?
+					new puzzle.klass.Encode()
+						.encodeURL(0)
+						.replace(/[^?]*\?\w+\//g, '')
+				// 3 is the KANPEN encoding type which is easiest to parse.
+					: new puzzle.klass.Encode()
+						.encodeURL(3)
+						.replace(/http:\/\/www.kanpen.net\/[^=]*=/g, '');
+				var request = new XMLHttpRequest();
+				request.addEventListener('load', function () {
+					new puzzle.klass.Solver().convertAnswerToCells(puzzle.board.cell, this.responseText)
+					resolve();
+				});
+				request.open('GET', '/conpuzzle_solver.php', true);
+				request.setRequestHeader('conpuzzle-input', JSON.stringify({
+					puzzleName,
+					encodedBoard
+				}));
+				request.send();
 
 			});
 		};
