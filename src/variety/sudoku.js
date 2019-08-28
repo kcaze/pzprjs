@@ -134,11 +134,9 @@
 		},
 
 		Solver: {
-			convertAnswerToCells: function (cells, answer) {
-				console.log(answer);
-				const anums = answer.trim().split('\n').map(row => row.split(/\s+/g)).flat();
-				anums.forEach((anum, idx) => {
-					cells[idx].setAnum(anum);
+			displayAnswer: function (solution) {
+				solution.forEach((anum, idx) => {
+					this.board.cell[idx].setAnum(anum);
 				});
 			}
 		}

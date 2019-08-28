@@ -417,31 +417,33 @@
 		pzpr.classmgr.setPrototypeRef(puzzle, 'board', puzzle.board);
 
 		puzzle.checker = new classes.AnsCheck();	// 正解判定オブジェクト
+    
+		const [NO_SOLUTIONS, UNIQUE_SOLUTION, MULTIPLE_SOLUTIONS] = [0, 1, 2];
+    function onSolveResponse(response) {
+      const {solutionType, solution} = response;
+      if (solutionType === NO_SOLUTIONS) {
+        return;
+      } else if (solutionType === MULTIPLE_SOLUTIONS) {
+
+      }
+      new puzzle.klass.Solver().displayAnswer(solution);
+    }
 		puzzle.solve = () => {
 			return new Promise(resolve => {
-				const puzzleName = puzzle.info.pid;
-				const encodedBoard = puzzleName === 'starbattle' ?
-					new puzzle.klass.Encode()
-						.encodeURL(0)
-						.replace(/[^?]*\?\w+\//g, '')
-				// 3 is the KANPEN encoding type which is easiest to parse.
-					: new puzzle.klass.Encode()
-						.encodeURL(3)
-						.replace(/http:\/\/www.kanpen.net\/[^=]*=/g, '');
+				const encodedURL = new puzzle.klass.Encode().encodeURL(0);
 				var request = new XMLHttpRequest();
 				request.addEventListener('load', function () {
-					new puzzle.klass.Solver().convertAnswerToCells(puzzle.board.cell, this.responseText)
-					resolve();
-				});
+          console.log('Response:', this.responseText);
+          onSolveResponse(JSON.parse(this.responseText));
+          resolve()
+        });
 				request.open('GET', '/conpuzzle_solver.php', true);
-				request.setRequestHeader('conpuzzle-input', JSON.stringify({
-					puzzleName,
-					encodedBoard
-				}));
+				request.setRequestHeader('conpuzzle-input', encodedURL);
 				request.send();
-
 			});
 		};
+
+
 		puzzle.painter = new classes.Graphic();		// 描画系オブジェクト
 
 		puzzle.cursor = new classes.TargetCursor();	// 入力用カーソルオブジェクト
