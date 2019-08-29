@@ -290,16 +290,14 @@
 			nmSumViewNe: ["数字と輪の内側になる4方向のマスの合計が違います。", "The number and the sum of the inside cells of four direction is different."]
 		},
 		Solver: {
-			convertAnswerToCells: function (cells, answer) {
-				console.log(answer);
-				answer = JSON.parse(answer);
+			displayAnswer: function (solution) {
 				for (i = 0; i < this.board.border.length; i++) {
 					let border = this.board.border[i];
 					let val;
 					if (border.isvert) {
-						val = answer.verticalFences[border.bx / 2][(border.by - 1) / 2];
+						val = solution.verticalFences[border.bx / 2][(border.by - 1) / 2];
 					} else {
-						val = answer.horizontalFences[border.by / 2][(border.bx - 1) / 2];
+						val = solution.horizontalFences[border.by / 2][(border.bx - 1) / 2];
 					}
 					border.setLineVal(val);
 				}

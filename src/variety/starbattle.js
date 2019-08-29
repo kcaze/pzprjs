@@ -372,11 +372,16 @@ FailCode:{
 	lnStarNe : ["1つの行に入る星の数が間違っています。","The number of stars in a line is other than the problem."]
 },
 
-		Solver: {
-			convertAnswerToCells: function (cells, answer) {
-				console.log(answer);
-			}
-		}
+Solver: {
+  displayAnswer: function (solution) {
+    for (let y = 0; y < this.board.rows; y++) {
+      for (let x = 0; x < this.board.cols; x++) {
+        this.board.cell[y*this.board.cols + x].setQans(solution[y][x] ? 1 : 0);
+      }
+    }
+    console.log(solution);
+  }
+}
 }));
 
 })();
