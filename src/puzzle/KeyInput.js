@@ -100,10 +100,11 @@ KeyEvent:{
 
 		var key = '', keycode = (!!e.keyCode ? e.keyCode: e.charCode);
 
-		if     (keycode===38){ key = 'up';   }
-		else if(keycode===40){ key = 'down'; }
-		else if(keycode===37){ key = 'left'; }
-		else if(keycode===39){ key = 'right';}
+    // Modified to support WASD.
+		if     (keycode===38 || keycode == 87){ key = 'up';   }
+		else if(keycode===40 || keycode == 83){ key = 'down'; }
+		else if(keycode===37 || keycode == 65){ key = 'left'; }
+		else if(keycode===39 || keycode == 68){ key = 'right';}
 		else if( 48<=keycode && keycode<= 57){ key = (keycode-48).toString(36);}
 		else if( 65<=keycode && keycode<= 90){ key = (keycode-55).toString(36);} //アルファベット
 		else if( 96<=keycode && keycode<=105){ key = (keycode-96).toString(36);} //テンキー対応

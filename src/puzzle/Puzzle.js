@@ -427,6 +427,8 @@
         return;
       } else if (solutionType === MULTIPLE_SOLUTIONS) {
         messageElement.innerText = 'Multiple solutions found. Showing one of them.';
+      } else {
+        messageElement.innerText = '';
       }
       new puzzle.klass.Solver().displayAnswer(solution);
     }
