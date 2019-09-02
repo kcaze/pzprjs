@@ -379,7 +379,6 @@ Solver: {
         this.board.cell[y*this.board.cols + x].setQans(solution[y][x] ? 1 : 0);
       }
     }
-    console.log(solution);
   }
 }
 }));
