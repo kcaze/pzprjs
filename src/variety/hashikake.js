@@ -341,5 +341,16 @@ AnsCheck:{
 FailCode:{
 	nmLineGt : ["数字につながる橋の数が違います。","The number of connecting bridges to a number is not correct."],
 	nmLineLt : ["数字につながる橋の数が違います。","The number of connecting bridges to a number is not correct."]
-}
+},
+
+		Solver: {
+			displayAnswer: function (solution) {
+				solution[0].forEach((line, idx) => {
+					this.board.border[idx].setLineVal(line);
+				});
+				solution[1].forEach((line, idx) => {
+					this.board.border[idx + solution[0].length].setLineVal(line);
+				});
+			}
+		}
 }));
