@@ -392,5 +392,12 @@ AnsCheck:{
 
 FailCode:{
 	nmSightNe : ["見えるビルの数が正しくありません。", "The count of seeable buildings is wrong."]
-}
+},
+		Solver: {
+			displayAnswer: function (solution) {
+				solution.forEach((anum, idx) => {
+					this.board.cell[idx].setAnum(anum);
+				});
+			}
+		}
 }));
