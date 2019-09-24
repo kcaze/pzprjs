@@ -282,5 +282,12 @@ FailCode:{
 	bkSizeGt : ["ブロックの大きさよりも数字が小さいです。","A number is smaller than the size of block."],
 	bkMixedNum : ["1つのブロックに2種類以上の数字が入っています。","A room has two or more kinds of numbers."],
 	bsSameNum : ["同じ数字のブロックが辺を共有しています。","Adjacent blocks have the same number."]
-}
+},
+		Solver: {
+			displayAnswer: function (solution) {
+				solution.forEach((anum, idx) => {
+					this.board.cell[idx].setAnum(anum);
+				});
+			}
+		}
 }));

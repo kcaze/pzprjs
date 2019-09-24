@@ -274,5 +274,12 @@ FailCode:{
 	cuNotRect : ["四角形でない白マスのブロックがあります。","There is a block of unshaded cells that is not rectangle."],
 	csRect    : ["四角形になっている黒マスのブロックがあります。","There is a block of shaded cells that is rectangle."],
 	csDivide8 : ["孤立した白マスのブロックがあります。","Unshaded cells are divided."]
-}
+},
+		Solver: {
+			displayAnswer: function (solution) {
+				solution.forEach((isShaded, idx) => {
+          this.board.cell[idx].setQans(isShaded);
+				});
+			}
+		}
 }));
