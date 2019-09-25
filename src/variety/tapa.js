@@ -486,7 +486,14 @@ AnsCheck:{
 
 FailCode:{
 	ceTapaNe : ["数字と周囲の黒マスの長さが異なっています。","The number is not equal to the length of surrounding shaded cells."]
-}
+},
+		Solver: {
+			displayAnswer: function (solution) {
+				solution.forEach((isShaded, idx) => {
+          this.board.cell[idx].setQans(isShaded);
+				});
+			}
+		}
 }));
 
 })();
