@@ -275,5 +275,20 @@ AnsCheck:{
 
 FailCode:{
 	ceEmpty : ["黒マスも線も引かれていないマスがあります。","There is an empty cell."]
-}
+},
+		Solver: {
+			displayAnswer: function (solution) {
+        const h = solution.horizontalFences;
+        const v = solution.verticalFences;
+        for (var i = 0; i < this.board.cell.length; i++) {
+          const border =this.board.cell[i].adjborder;
+          const x = i % this.board.cols;
+          const y = (i / this.board.cols)|0;
+          border.right.setLineVal(y >= 0 && y < h.length && x >= 0 && x < h[0].length ? h[y][x] : 0);
+          border.left.setLineVal(y >= 0 && y < h.length && x-1 >= 0 && x-1 < h[0].length ? h[y][x-1] : 0);
+          border.top.setLineVal(y-1 >= 0 && y-1 < v[0].length && x >= 0 && x < v.length ? v[x][y-1] : 0);
+          border.bottom.setLineVal(y >= 0 && y < v[0].length && x >= 0 && x < v.length ? v[x][y] : 0);
+        }
+			}
+		}
 }));
